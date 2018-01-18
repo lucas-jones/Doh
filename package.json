@@ -19,7 +19,9 @@
   },
   "scripts": {
     "start": "react-scripts-ts start",
-    "build": "react-scripts-ts build"
+    "build": "react-scripts-ts build",
+    "docker-build": "docker build -t lucasjones/doh .",
+    "docker-push": "docker push lucasjones/doh"
   },
   "devDependencies": {
     "@types/jest": "^22.0.1",
