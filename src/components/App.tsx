@@ -127,7 +127,7 @@ class App extends React.Component<Props, State>
 									<th scope="row">{data.name}</th>
 									<td>£{formatPrice(data.price)}</td>
 									<td style={formatPercent(data.change)} >{data.change}%</td>
-									<td >
+									<td style={{ width: '30%' }}>
 										<Sparklines data={gen(data.data)} limit={data.data.length} width={200} height={40} >
 											<SparklinesCurve style={{ strokeWidth: 0.7, fill: "none" }} />
 										</Sparklines>
