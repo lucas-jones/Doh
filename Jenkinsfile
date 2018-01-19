@@ -1,9 +1,9 @@
 pipeline {
   agent any
   stages {
-    stage('') {
+    stage('build docker') {
       steps {
-        sh 'ls'
+        sh 'docker build .'
       }
     }
   }
