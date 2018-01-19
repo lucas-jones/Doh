@@ -1,5 +1,10 @@
 pipeline {
-  agent any
+  agent {
+    docker {
+      image 'jenkinsci/slave'
+    }
+    
+  }
   stages {
     stage('build docker') {
       steps {
