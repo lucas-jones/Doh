@@ -139,6 +139,9 @@ class App extends React.Component<Props, State>
 						</tbody>
 					</Table>
 				</Container>
+				<div className="footer" >
+					<a className="github-link" href="https://github.com/lucas-jones/Doh">GitHub</a>
+				</div>
 			</div>
 		);
 	}

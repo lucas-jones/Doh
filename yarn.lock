@@ -1122,7 +1122,9 @@ crypto-browserify@^3.11.0:
 
 cryptocompare-api@lucas-jones/cryptocompare-api:
   version "1.0.2"
-  resolved "https://codeload.github.com/lucas-jones/cryptocompare-api/tar.gz/9eca16f61be7f3bf8bde40a10b3e3347bd3cc15b"
+  resolved "https://codeload.github.com/lucas-jones/cryptocompare-api/tar.gz/bcaf9e87404d1688b3608815b19c0869bc98770b"
+  dependencies:
+    typescript "^2.6.2"
 
 css-color-names@0.0.4:
   version "0.0.4"
@@ -5477,6 +5479,10 @@ type-is@~1.6.15:
   dependencies:
     media-typer "0.3.0"
     mime-types "~2.1.15"
+
+typescript@^2.6.2:
+  version "2.6.2"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.6.2.tgz#3c5b6fd7f6de0914269027f03c0946758f7673a4"
 
 typescript@~2.5.3:
   version "2.5.3"
