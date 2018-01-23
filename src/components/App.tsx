@@ -8,7 +8,7 @@ import * as CC from 'cryptocompare-api'
 import {Typeahead} from 'react-bootstrap-typeahead';
 
 interface Props { }
-interface State { data: Stock[]; available: any[] }
+interface State { data: Stock[]; available: any[], selected: any }
 
 interface Stock {
 	name:string;
@@ -20,6 +20,7 @@ interface Stock {
 class App extends React.Component<Props, State>
 {
 	static CURRENCY = "GBP";
+	static DEFAULT = [ "BTC", "LTC", "ETH", "XRP", "IOT", "XRB","ENG", "REQ", "DOGE", "WABI" ];
 	static WATCH = [ "BTC", "LTC", "ETH", "XRP", "IOT", "XRB","ENG", "REQ", "DOGE", "WABI" ];
 
 	constructor(props:Props)
@@ -28,8 +29,14 @@ class App extends React.Component<Props, State>
 
 		this.state = {
 			data: [],
-			available: []
+			available: [],
+			selected: null
 		};
+	}
+
+	arraysEqual(a1:any[],a2:any[]):boolean {
+		/* WARNING: arrays must not contain {objects} or behavior may be undefined */
+		return JSON.stringify(a1)==JSON.stringify(a2);
 	}
 
 	async getData()
@@ -39,8 +46,9 @@ class App extends React.Component<Props, State>
 		var watch:string[] = coins.watch == null ? App.WATCH : coins.watch.split(',');
 
 		const prices = await CC.getPriceMultiFull({ fsyms: watch, tsyms: [App.CURRENCY] });
-		
-		if(coins.watch != null)
+	
+
+		if(this.arraysEqual(watch, App.DEFAULT) == false)
 		{
 			history.pushState(null, "Doh", QueryString.stringify({ watch: watch.join(",")}, { encode: false } ));
 		}
@@ -75,7 +83,24 @@ class App extends React.Component<Props, State>
 
 	addCoin(coin:any)
 	{
-		console.log(coin);
+		var coin = coin[0];
+
+		App.WATCH.push(coin.Symbol);
+
+		this.setState({
+			selected: null
+		})
+
+		this.componentDidMount();
+	}
+
+	removeCoin(e:any, coin:any)
+	{
+		var coin = coin;
+
+		App.WATCH.splice(App.WATCH.indexOf(coin.name), 1);
+
+		this.componentDidMount();
 	}
 
 	render()
@@ -108,8 +133,8 @@ class App extends React.Component<Props, State>
 				
 				<Container className="stuff" >
 					<div className="search" >
-						<Typeahead ref="typeahead" options={this.state.available} placeholder={"...."} labelKey="FullName" />
-						<Button outline color="success" onClick={(coin) => this.addCoin(((window as any).apple  = this.refs.typeahead as any))} >Add</Button>
+						<Typeahead selected={this.state.selected} onChange={(selected) => { this.setState({selected}); }} options={this.state.available} placeholder={"...."} labelKey="FullName" />
+						<Button outline color="success" onClick={(coin) => this.addCoin(this.state.selected)} >Add</Button>
 					</div>
 					<Table  >
 						<thead>
@@ -124,7 +149,7 @@ class App extends React.Component<Props, State>
 						{
 							this.state.data.map((data, index) => 
 								<tr key={index} >
-									<th scope="row">{data.name}</th>
+									<th scope="row" onClick={(e) => this.removeCoin(e, data)} >{data.name}</th>
 									<td>£{formatPrice(data.price)}</td>
 									<td style={formatPercent(data.change)} >{data.change}%</td>
 									<td style={{ width: '30%' }}>
