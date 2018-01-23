@@ -50,7 +50,7 @@ class App extends React.Component<Props, State>
 
 		if(this.arraysEqual(watch, App.DEFAULT) == false)
 		{
-			history.pushState(null, "Doh", QueryString.stringify({ watch: watch.join(",")}, { encode: false } ));
+			history.pushState(null, "Doh", "?" + QueryString.stringify({ watch: watch.join(",")}, { encode: false } ));
 		}
 
 		var output:Stock[] = [];
